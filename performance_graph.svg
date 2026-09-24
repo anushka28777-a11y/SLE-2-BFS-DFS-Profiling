@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+<text x="400" y="35" text-anchor="middle" font-size="24">BFS vs DFS - Average Execution Time</text>
+<line x1="100" y1="380" x2="730" y2="380" stroke="black"/>
+<line x1="100" y1="80" x2="100" y2="380" stroke="black"/>
+<rect x="230" y="129" width="140" height="251" fill="#888"/>
+<rect x="500" y="79" width="140" height="301" fill="#555"/>
+<text x="300" y="405" text-anchor="middle" font-size="18">BFS</text>
+<text x="570" y="405" text-anchor="middle" font-size="18">DFS</text>
+<text x="300" y="118" text-anchor="middle" font-size="16">0.001045 ms</text>
+<text x="570" y="68" text-anchor="middle" font-size="16">0.001254 ms</text>
+<text x="40" y="230" text-anchor="middle" transform="rotate(-90 40 230)" font-size="18">Average Time (ms)</text>
+<text x="400" y="440" text-anchor="middle" font-size="14">Measured on the SLE-2 small graph, 3 repeats × 10,000 executions</text>
+</svg>
