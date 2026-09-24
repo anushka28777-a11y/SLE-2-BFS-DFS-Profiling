@@ -83,6 +83,29 @@ This creates performance_graph.png. The graph is based on actual measured values
 
 Do not enter estimated numbers. The SLE-2 guideline specifically requires real profiling numbers. fileciteturn0file0L19-L22
 
+## Best, Average and Worst Case
+
+Theoretical time complexity for graph traversal/search is summarized below:
+
+| Algorithm | Best Case | Average Case | Worst Case |
+|---|---|---|---|
+| **BFS** | O(1) | O(V + E) | O(V + E) |
+| **DFS** | O(1) | O(V + E) | O(V + E) |
+
+Where **V** is the number of vertices (nodes) and **E** is the number of edges.
+
+### BFS
+- **Best case:** O(1) when the goal is the starting node.
+- **Average case:** O(V + E) when a substantial part of the graph may need to be explored.
+- **Worst case:** O(V + E) when the graph is fully explored before the goal is found or determined to be absent.
+
+### DFS
+- **Best case:** O(1) when the goal is the starting node or is reached immediately.
+- **Average case:** O(V + E), depending on the graph structure and goal location.
+- **Worst case:** O(V + E) when the graph may need to be fully explored.
+
+These are theoretical complexity values. The measured execution times in this project are experimental results for the selected graph and should be reported separately.
+
 ## Analysis
 Identify the algorithm with lower measured execution time from the experiment. Compare the node counts and explain the result using the measured data. For a larger search space, differences between search strategies can become more visible.
 
