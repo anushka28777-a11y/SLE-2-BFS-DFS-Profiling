@@ -75,6 +75,17 @@ def main():
     print(f'DFS Nodes Expanded: {dfs_nodes}')
     print()
     print('Results saved to results.csv')
+    print()
+    print('----- BEST / AVERAGE / WORST CASE COMPLEXITY -----')
+    print('BFS:')
+    print('  Best Case    : O(1)')
+    print('  Average Case : O(V + E)')
+    print('  Worst Case   : O(V + E)')
+    print()
+    print('DFS:')
+    print('  Best Case    : O(1)')
+    print('  Average Case : O(V + E)')
+    print('  Worst Case   : O(V + E)')
     if bfs_time < dfs_time:
         print('BFS took less measured time.')
     elif dfs_time < bfs_time:
