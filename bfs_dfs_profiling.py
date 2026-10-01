@@ -46,46 +46,71 @@ def dfs(graph, start, goal):
                 stack.append(neighbour)
     return nodes_expanded
 
-def average_time(search_function, runs=5, number=10000):
+def measure_time(search_function, start, goal, runs=5, number=10000):
     measurements = timeit.repeat(
-        lambda: search_function(graph, "A", "G"),
+        lambda: search_function(graph, start, goal),
         repeat=runs,
         number=number
     )
     return (sum(measurements) / len(measurements)) * 1000 / number
 
+def best_average_worst(search_function):
+    best = measure_time(search_function, "A", "A")
+    average = measure_time(search_function, "A", "E")
+    worst = measure_time(search_function, "A", "Z")
+    return best, average, worst
+
 def profiling_workload(iterations=500000):
-    # Repeated calls give py-spy enough runtime to sample BFS/DFS.
     for _ in range(iterations):
         bfs(graph, "A", "G")
         dfs(graph, "A", "G")
 
-def save_results(bfs_time, dfs_time, bfs_nodes, dfs_nodes):
+def save_results(bfs_cases, dfs_cases):
     with open("results.csv", "w", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(["Algorithm", "Average Time (ms)", "Nodes Expanded"])
-        writer.writerow(["BFS", f"{bfs_time:.6f}", bfs_nodes])
-        writer.writerow(["DFS", f"{dfs_time:.6f}", dfs_nodes])
+        writer.writerow(["Algorithm", "Case", "Average Time (ms)", "Nodes Expanded"])
+        for algorithm, search_function, cases in [
+            ("BFS", bfs, bfs_cases),
+            ("DFS", dfs, dfs_cases)
+        ]:
+            for case_name, start, goal, measured_time in cases:
+                nodes = search_function(graph, start, goal)
+                writer.writerow([algorithm, case_name, f"{measured_time:.6f}", nodes])
 
 def main():
-    bfs_time = average_time(bfs)
-    dfs_time = average_time(dfs)
-    bfs_nodes = bfs(graph, "A", "G")
-    dfs_nodes = dfs(graph, "A", "G")
-    save_results(bfs_time, dfs_time, bfs_nodes, dfs_nodes)
+    bfs_best, bfs_average, bfs_worst = best_average_worst(bfs)
+    dfs_best, dfs_average, dfs_worst = best_average_worst(dfs)
+
+    bfs_cases = [
+        ("Best", "A", "A", bfs_best),
+        ("Average", "A", "E", bfs_average),
+        ("Worst", "A", "Z", bfs_worst)
+    ]
+    dfs_cases = [
+        ("Best", "A", "A", dfs_best),
+        ("Average", "A", "E", dfs_average),
+        ("Worst", "A", "Z", dfs_worst)
+    ]
+
+    save_results(bfs_cases, dfs_cases)
 
     print("----- SLE-2 BFS vs DFS PROFILING -----")
-    print(f"BFS Average Time: {bfs_time:.6f} ms")
-    print(f"BFS Nodes Expanded: {bfs_nodes}")
     print()
-    print(f"DFS Average Time: {dfs_time:.6f} ms")
-    print(f"DFS Nodes Expanded: {dfs_nodes}")
+    print("BFS")
+    print(f"Best Case    : {bfs_best:.6f} ms")
+    print(f"Average Case : {bfs_average:.6f} ms")
+    print(f"Worst Case   : {bfs_worst:.6f} ms")
     print()
-    print("Results saved to results.csv")
+    print("DFS")
+    print(f"Best Case    : {dfs_best:.6f} ms")
+    print(f"Average Case : {dfs_average:.6f} ms")
+    print(f"Worst Case   : {dfs_worst:.6f} ms")
     print()
-    print("----- BEST / AVERAGE / WORST CASE COMPLEXITY -----")
+    print("----- TIME COMPLEXITY -----")
     print("BFS: Best O(1), Average O(V + E), Worst O(V + E)")
     print("DFS: Best O(1), Average O(V + E), Worst O(V + E)")
+    print()
+    print("Results saved to results.csv")
 
 if __name__ == "__main__":
     main()
