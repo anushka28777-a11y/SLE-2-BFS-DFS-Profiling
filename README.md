@@ -6,17 +6,14 @@
 **PRN:** 25UAM033
 
 ## Objective
-This project compares Breadth First Search (BFS) and Depth First Search (DFS) on the same small graph using average execution time and nodes expanded. It uses timeit for numerical timing, py-spy for profiler/flame-graph analysis, and a Python graph generator for visual comparison.
-
-The SLE-2 guideline requires both algorithms to be run on the same problem and supported with measured numbers. fileciteturn0file0L49-L68
+This project compares BFS and DFS on the same graph using measured execution time, nodes expanded, and Py-Spy profiling.
 
 ## Problem Used
-
 ```
         A
-       / \\
+       / \
       B   C
-     / \\ / \\
+     / \ / \
     D  E F  G
 ```
 
@@ -24,115 +21,64 @@ Start node: **A**
 Goal node: **G**
 
 ## Algorithms
+- **BFS:** queue-based level-order graph traversal.
+- **DFS:** stack-based depth-first graph traversal.
+- Both use a visited set and count expanded nodes.
 
-### BFS
-BFS uses a queue and explores nodes level by level.
+## Profiling with Py-Spy
 
-### DFS
-DFS uses a stack and explores one branch before backtracking.
-
-Both implementations use a visited set and count expanded nodes.
-
-## Profiling Tools
-
-### timeit
-The Python timeit module is used to run each search repeatedly and calculate average execution time.
-
-### py-spy
-Install:
+Install Py-Spy:
 
 ```bash
 pip install py-spy
 ```
 
-Run the program:
+Run the experiment:
 
 ```bash
 python bfs_dfs_profiling.py
 ```
 
-Live profiling:
+Create the flame graph:
 
 ```bash
-py-spy top -- python bfs_dfs_profiling.py
+py-spy record --rate 100 --duration 15 --output bfs_dfs_flame.svg -- python -c "import bfs_dfs_profiling as p; p.profiling_workload()"
 ```
 
-Create a flame graph:
+The profiling workload intentionally repeats BFS and DFS so Py-Spy can collect enough samples. The generated `bfs_dfs_flame.svg` is an actual Py-Spy flame graph and can be opened directly in a browser.
+
+Optional live view:
 
 ```bash
-py-spy record -o bfs_dfs_flame.svg -- python bfs_dfs_profiling.py
+py-spy top -- python -c "import bfs_dfs_profiling as p; p.profiling_workload()"
 ```
 
-Open bfs_dfs_flame.svg in a browser to inspect where execution time is spent.
+## Performance Graph
 
-## Generate the Performance Graph
-After running the profiling program, it creates results.csv. Then run:
+After running the main program:
 
 ```bash
 python plot_results.py
 ```
 
-This creates performance_graph.png. The graph is based on actual measured values, not assumed values.
-
-## Results Table
-
-| Metric | BFS | DFS |
-|---|---:|---:|
-| Average Time (ms) | Run experiment | Run experiment |
-| Nodes Expanded | Run experiment | Run experiment |
-
-Do not enter estimated numbers. The SLE-2 guideline specifically requires real profiling numbers. fileciteturn0file0L19-L22
+This reads the measured values from `results.csv`.
 
 ## Best, Average and Worst Case
-
-Theoretical time complexity for graph traversal/search is summarized below:
 
 | Algorithm | Best Case | Average Case | Worst Case |
 |---|---|---|---|
 | **BFS** | O(1) | O(V + E) | O(V + E) |
 | **DFS** | O(1) | O(V + E) | O(V + E) |
 
-Where **V** is the number of vertices (nodes) and **E** is the number of edges.
-
-### BFS
-- **Best case:** O(1) when the goal is the starting node.
-- **Average case:** O(V + E) when a substantial part of the graph may need to be explored.
-- **Worst case:** O(V + E) when the graph is fully explored before the goal is found or determined to be absent.
-
-### DFS
-- **Best case:** O(1) when the goal is the starting node or is reached immediately.
-- **Average case:** O(V + E), depending on the graph structure and goal location.
-- **Worst case:** O(V + E) when the graph may need to be fully explored.
-
-These are theoretical complexity values. The measured execution times in this project are experimental results for the selected graph and should be reported separately.
-
-## Analysis
-Identify the algorithm with lower measured execution time from the experiment. Compare the node counts and explain the result using the measured data. For a larger search space, differences between search strategies can become more visible.
-
-## AI Contribution
-**AI tool used:** ChatGPT
-
-**AI helped with:**
-- Structuring the BFS and DFS profiling code
-- Preparing the README and contribution log
-- Adding py-spy profiling instructions
-- Adding code to generate the performance graph
-
-**My work:**
-- Running the code and profiler
-- Collecting actual performance values
-- Checking the generated graph and flame graph
-- Interpreting the experimental results
-
-The SLE-2 guideline asks for an honest AI contribution note and identification of work done by the student. fileciteturn0file0L69-L72
+Here, **V** is the number of vertices and **E** is the number of edges.
 
 ## Files
-- bfs_dfs_profiling.py — BFS, DFS, timing and node-count experiment
-- plot_results.py — generates the performance graph
-- CONTRIBUTION_LOG.md — AI contribution record
-- results.csv — generated experimental measurements
-- performance_graph.png — generated performance graph
-- bfs_dfs_flame.svg — optional py-spy flame graph
+- `bfs_dfs_profiling.py` — BFS, DFS, timing and profiling workload
+- `plot_results.py` — performance graph
+- `results.csv` — measured timing results
+- `performance_graph.svg` — performance graph
+- `bfs_dfs_flame.svg` — Py-Spy flame graph
+- `CONTRIBUTION_LOG.md` — contribution record
 
-## Conclusion
-This experiment demonstrates empirical performance analysis of BFS and DFS. It measures actual execution time and nodes expanded on the same graph so the final SLE-2 comparison can be justified with data.
+## Important
+Run the experiment on your machine before submitting the numerical results. Timing values depend on the computer and Python environment.
