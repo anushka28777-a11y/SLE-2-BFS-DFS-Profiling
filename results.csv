@@ -1,7 +1,7 @@
-Algorithm,Case,Average Time (ms),Nodes Expanded
-BFS,Best,0.000000,1
-BFS,Average,0.000000,5
-BFS,Worst,0.000000,7
-DFS,Best,0.000000,1
-DFS,Average,0.000000,3
-DFS,Worst,0.000000,7
+Algorithm,Case,Measured Time (ms),Nodes Expanded
+BFS,Best,Run bfs_dfs_profiling.py,1
+BFS,Average,Run bfs_dfs_profiling.py,5
+BFS,Worst,Run bfs_dfs_profiling.py,7
+DFS,Best,Run bfs_dfs_profiling.py,1
+DFS,Average,Run bfs_dfs_profiling.py,3
+DFS,Worst,Run bfs_dfs_profiling.py,7
