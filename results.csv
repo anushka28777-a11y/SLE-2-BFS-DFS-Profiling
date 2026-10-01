@@ -1,3 +1,7 @@
-Algorithm,Average Time (ms),Nodes Expanded
-BFS,0.001045,7
-DFS,0.001254,7
+Algorithm,Case,Average Time (ms),Nodes Expanded
+BFS,Best,0.000000,1
+BFS,Average,0.000000,5
+BFS,Worst,0.000000,7
+DFS,Best,0.000000,1
+DFS,Average,0.000000,3
+DFS,Worst,0.000000,7
