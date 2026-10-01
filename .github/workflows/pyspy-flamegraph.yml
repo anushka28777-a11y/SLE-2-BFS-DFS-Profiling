@@ -27,7 +27,17 @@ jobs:
 
       - name: Generate Py-Spy flame graph
         run: |
-          py-spy record             --rate 100             --duration 15             --output bfs_dfs_flame.svg             -- python -c "import bfs_dfs_profiling as p; p.profiling_workload(1000000)"
+          py-spy record \
+            --rate 100 \
+            --duration 15 \
+            --output bfs_dfs_flame.svg \
+            -- python -c "import bfs_dfs_profiling as p; p.profiling_workload(5000000)" \
+            || test -s bfs_dfs_flame.svg
+
+      - name: Verify flame graph
+        run: |
+          test -s bfs_dfs_flame.svg
+          grep -q "<svg" bfs_dfs_flame.svg
 
       - name: Commit flame graph
         run: |
